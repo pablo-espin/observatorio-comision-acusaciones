@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatorio de la Comisión de Acusaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav__logo-link">
+      <div class="logo-placeholder nav__logo-box">Logo</div>
+    </a>
+    <button class="nav__burger" id="navBurger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav__menu" id="navMenu">
+      <li><a href="#datos-clave" class="nav__link">Datos clave</a></li>
+      <li><a href="#que-observamos" class="nav__link">Qué observamos</a></li>
+      <li><a href="#la-comision" class="nav__link">La Comisión</a></li>
+      <li><a href="#preguntas-frecuentes" class="nav__link">Preguntas frecuentes</a></li>
+      <li><a href="#footer" class="nav__link">Sobre nosotros</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <div class="hero__logo-box logo-placeholder">Logo</div>
+      <h1 class="hero__title">Observatorio de la Comisión de Acusaciones</h1>
+      <p class="hero__subtitle">Un proyecto de la Fundación para el Estado de Derecho</p>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro" id="intro">
+    <div class="container">
+      <div class="intro__callout">
+        <p>La ciudadanía tiene derecho a saber cómo funciona la institución encargada de investigar a los más altos funcionarios del Estado.</p>
+      </div>
+      <div class="intro__body">
+        <p>La Comisión de Investigación y Acusación de la Cámara de Representantes tiene una de las responsabilidades más importantes del sistema constitucional colombiano: investigar al Presidente de la República, al Fiscal General de la Nación y a los magistrados de las altas cortes.</p>
+        <p>A pesar de la trascendencia de esta función, la Comisión ha sido objeto de cuestionamientos históricos por sus bajos niveles de transparencia, la limitada disponibilidad de información pública, la duración de los procesos y la escasez de resultados visibles para la ciudadanía.</p>
+        <p>El <strong>Observatorio de la Comisión de Acusaciones</strong> es una iniciativa independiente orientada a recopilar, analizar y divulgar información verificable sobre el funcionamiento de esta institución. Busca promover el acceso a información pública, la transparencia de los procedimientos, la trazabilidad de las investigaciones, la rendición de cuentas y el debate informado sobre posibles reformas y mejoras institucionales.</p>
+        <p>¡Se trata de una institución clave para la democracia!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATOS CLAVE -->
+  <section class="datos-clave" id="datos-clave">
+    <div class="datos-clave__grid">
+      <div class="dato">
+        <span class="dato__number">2.862</span>
+        <span class="dato__label">quejas y denuncias recibidas entre 2022 y 2025 (corte a octubre)</span>
+      </div>
+      <div class="dato">
+        <span class="dato__number">683</span>
+        <span class="dato__label">procesos archivados entre 2018 y 2026</span>
+      </div>
+      <div class="dato">
+        <span class="dato__number">4</span>
+        <span class="dato__label">resoluciones de acusación contra magistrados emitidas en más de tres décadas de funcionamiento</span>
+      </div>
+      <div class="dato">
+        <span class="dato__number">0</span>
+        <span class="dato__label">presidentes de la República acusados formalmente desde la Constitución de 1991</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISIONES JUDICIALES -->
+  <section class="decisiones" id="decisiones-judiciales">
+    <div class="container">
+      <h2 class="section-title">Tres decisiones judiciales que abrieron información de interés público</h2>
+      <div class="decisiones__content">
+        <div class="decisiones__text">
+          <p>Durante 2025 y 2026, la Fundación para el Estado de Derecho obtuvo tres decisiones favorables del Tribunal Administrativo de Cundinamarca mediante recursos de insistencia promovidos contra negativas de acceso a información pública de la Comisión.</p>
+          <p>Los jueces concluyeron que información relacionada con el funcionamiento institucional de la Comisión, sus investigaciones, archivos, prescripciones, caducidades e indicadores de gestión no puede permanecer oculta cuando no existe una reserva legal expresa.</p>
+          <p>Estas decisiones constituyen uno de los avances más importantes en materia de acceso a la información y rendición de cuentas sobre la Comisión desde la expedición de la Constitución de 1991.</p>
+        </div>
+        <div class="decisiones__box">
+          <h3>Hoy, la ciudadanía puede exigir conocer</h3>
+          <ul>
+            <li>Indicadores de gestión institucional, sistema de repartos y turnos.</li>
+            <li>Número de denuncias y quejas recibidas.</li>
+            <li>Número de investigaciones abiertas.</li>
+            <li>Procesos terminados por prescripción o caducidad.</li>
+            <li>Estado general de los expedientes.</li>
+            <li>Estadísticas sobre el trámite de las investigaciones.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUÉ OBSERVAMOS -->
+  <section class="que-observamos" id="que-observamos">
+    <h2 class="section-title">¿Qué observamos?</h2>
+    <div class="flip-cards">
+
+      <div class="flip-card" tabindex="0" aria-label="Investigaciones de interés público">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <img src="img/icono-investigaciones.svg" alt="" class="flip-card__icon">
+            <p>Investigaciones de interés público</p>
+          </div>
+          <div class="flip-card__back">
+            <p>Seguimiento a los asuntos que plantean debates jurídicos, constitucionales e institucionales relevantes para el país. El Observatorio busca contribuir a la comprensión de las competencias de la Comisión, el alcance de las investigaciones que adelanta y los criterios aplicados en el control de los aforados constitucionales.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" aria-label="Seguimiento a procesos">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <img src="img/icono-seguimiento.svg" alt="" class="flip-card__icon">
+            <p>Seguimiento a procesos, reparto y asignación de expedientes</p>
+          </div>
+          <div class="flip-card__back">
+            <p>Seguimiento a denuncias, quejas y procesos que involucran a altos funcionarios aforados. Monitoreo de los criterios utilizados para distribuir las investigaciones entre representantes investigadores, los mecanismos de reparto y turno, los tiempos de asignación y las cargas de trabajo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" aria-label="Tiempos procesales y resultados">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <img src="img/icono-tiempos-procesales.svg" alt="" class="flip-card__icon">
+            <p>Tiempos procesales y resultados</p>
+          </div>
+          <div class="flip-card__back">
+            <p>Análisis de la duración de las investigaciones, turnos, archivos, prescripciones, caducidades y demás decisiones adoptadas por la Comisión.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" aria-label="Transparencia y acceso a la información">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <img src="img/icono-transparencia.svg" alt="" class="flip-card__icon">
+            <p>Transparencia y acceso a la información</p>
+          </div>
+          <div class="flip-card__back">
+            <p>Seguimiento al cumplimiento de las obligaciones legales de publicidad, respuesta a solicitudes de información y rendición de cuentas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" aria-label="Propuestas de mejora institucional">
+        <div class="flip-card__inner">
+          <div class="flip-card__front">
+            <img src="img/icono-mejora-institucional.svg" alt="" class="flip-card__icon">
+            <p>Propuestas de mejora institucional</p>
+          </div>
+          <div class="flip-card__back">
+            <p>Formulación de recomendaciones orientadas a fortalecer la eficiencia, la transparencia, la trazabilidad de los procesos, la publicidad de las actuaciones y la confianza ciudadana en la Comisión.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUIÉNES COMPONEN LA COMISIÓN -->
+  <section class="la-comision" id="la-comision">
+    <div class="container">
+      <h2 class="section-title">Quiénes componen la Comisión</h2>
+      <div class="la-comision__intro">
+        <p>La Comisión de Investigación y Acusación está integrada por dieciocho representantes a la Cámara elegidos de acuerdo con la composición política del Congreso de la República.</p>
+        <p>Aquí podrá consultar quiénes integran actualmente la Comisión. En futuras etapas del Observatorio incorporaremos información sobre las investigaciones asignadas, los mecanismos de reparto y turno, avances, responsabilidades y otros indicadores relacionados con la actividad de la Comisión.</p>
+      </div>
+    </div>
+
+    <div class="members-grid">
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/alirio-uribe.webp" alt="Alirio Uribe Muñoz" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Alirio Uribe Muñoz</p>
+            <span class="badge badge--pacto">Pacto Histórico</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado y defensor de derechos humanos bogotano. Durante años ejerció la presidencia del Colectivo de Abogados José Alvear Restrepo (Cajar), ganando notoriedad nacional e internacional por la representación de víctimas del conflicto armado. Políticamente militó en el Polo Democrático Alternativo y retornó a la Cámara por Bogotá a través del Pacto Histórico, enfocándose en reformas de justicia y control político.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/carlos-alberto-cuenca.webp" alt="Carlos Alberto Cuenca Chaux" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Carlos Alberto Cuenca Chaux</p>
+            <span class="badge badge--cambio-radical">Cambio Radical</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Profesional en Mercadeo de la Universidad Cooperativa de Colombia, especialista en Marketing Político y Estrategias de Campaña, y magíster en Comunicación Política. Nació en Algeciras (Huila) y se radicó desde joven en Inírida (Guainía), donde construyó su capital político y se convirtió en la principal figura de Cambio Radical en ese departamento. Ha sido elegido de manera continua a la Cámara desde finales de la década de 2000, fue presidente de la Cámara de Representantes en la legislatura 2019–2020, y como miembro de la Comisión Tercera y de la Comisión de Acusación ha tenido papel central en debates fiscales y de control político.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/daniel-restrepo.webp" alt="Daniel Restrepo Carmona" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Daniel Restrepo Carmona</p>
+            <span class="badge badge--conservador">Partido Conservador</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado de la Institución Universitaria de Envigado, con especialización en contratación estatal en la misma institución. Nació en Medellín en 1991 y creció en Itagüí, donde inició su trayectoria como servidor público en la administración municipal y luego como concejal, llegando a ser el concejal más joven y uno de los mayores electores del municipio. En 2022 dio el salto al Congreso como representante a la Cámara por Antioquia con la mayor votación conservadora del departamento, integrando la Comisión Tercera y la Comisión Legal de Investigación y Acusación.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/gloria-arizabaleta.webp" alt="Gloria Elena Arizabaleta Corral" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Gloria Elena Arizabaleta Corral</p>
+            <span class="badge badge--pacto">Pacto Histórico</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogada egresada de la Universidad de San Buenaventura, con una especialización en Derecho Penal de la Universidad Sergio Arboleda. Cuenta con una extensa carrera en el sector judicial como fiscal y funcionaria de la Fiscalía General de la Nación. Entró a la política nacional elegida por la lista de la coalición Pacto Histórico por el departamento del Valle del Cauca y ha liderado la Presidencia de la Comisión de Investigación y Acusación.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/hernan-cadavid.webp" alt="Hernán Darío Cadavid Márquez" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Hernán Darío Cadavid Márquez</p>
+            <span class="badge badge--centro-democratico">Centro Democrático</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado de la Universidad de Medellín, especialista en Derecho Público y Acciones Constitucionales de la misma universidad. Nació en Barbosa (Antioquia) en 1986 y trabajó durante años como asesor legislativo del uribismo y luego como director jurídico en la Oficina del Alto Comisionado para la Paz, participando como vocero del Centro Democrático frente al Acuerdo de La Habana. Desde 2022 es representante a la Cámara por Antioquia, donde se ha posicionado como una de las voces más visibles de oposición al gobierno nacional.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/jorge-alejandro-ocampo.webp" alt="Jorge Alejandro Ocampo Giraldo" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Jorge Alejandro Ocampo Giraldo</p>
+            <span class="badge badge--pacto">Pacto Histórico</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Profesional en Estudios Políticos y Resolución de Conflictos de la Universidad del Valle. Inició su liderazgo en colectivos estudiantiles y juveniles en Cali. Tras postularse en previas contiendas locales, fue elegido representante a la Cámara por el Valle del Cauca bajo la bandera del Pacto Histórico, caracterizándose por un estilo de debate directo.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/jorge-eliecer-tamayo.webp" alt="Jorge Eliecer Tamayo Marulanda" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Jorge Eliecer Tamayo Marulanda</p>
+            <span class="badge badge--u">Partido de la U</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado de la Universidad Santiago de Cali, con especializaciones en Derecho Administrativo y Constitucional, exconcejal de Cali en dos periodos y actual representante a la Cámara por el Valle del Cauca (Comisión Primera) desde el Partido de la U, vinculado al grupo político de Dilian Francisca Toro y cercano al gobierno de Gustavo Petro.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/jorge-rodrigo-tovar.webp" alt="Jorge Rodrigo Tovar Vélez" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Jorge Rodrigo Tovar Vélez</p>
+            <span class="badge badge--curules">Curules de paz</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado de la Universidad del Rosario con énfasis en Derecho Constitucional y Derechos Humanos, especialista en Ciencias Penales y Criminológicas y en Gestión de Gobierno y Campañas Electorales, con maestría en Dirección Pública. Es hijo de Rodrigo Tovar Pupo, alias "Jorge 40", exjefe del Bloque Norte de las AUC, lo que generó amplia controversia cuando fue nombrado coordinador de víctimas en el Ministerio del Interior y luego cuando aspiró a la curul de paz. En 2022 resultó elegido representante a la Cámara por una de las curules de víctimas (CITREP), desde donde ha trabajado en proyectos de memoria, reparación y desarrollo regional en el Caribe.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/juan-carlos-wills.webp" alt="Juan Carlos Wills Ospina" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Juan Carlos Wills Ospina</p>
+            <span class="badge badge--conservador">Partido Conservador</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado, especialista en Derecho Administrativo y magíster en Derecho Constitucional y en Acción Política, representante a la Cámara por Bogotá desde 2018 por el Partido Conservador, donde ha presidido la Comisión Primera, ha sido vocero de la bancada conservadora y acumula una trayectoria orgánica dentro del partido como secretario general y dirigente de escuelas de formación política.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/karyme-adriana-cotes.webp" alt="Karyme Adriana Cotes Martínez" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Karyme Adriana Cotes Martínez</p>
+            <span class="badge badge--liberal">Partido Liberal</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogada de la Corporación Universitaria del Caribe y especialista en Derecho Administrativo, fue diputada de la Asamblea de Sucre por el Partido Liberal y desde 2022 es representante a la Cámara por Sucre por el mismo partido, integrando la Comisión Primera y manteniendo una posición cercana al gobierno nacional en el Congreso.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/leonardo-gallego.webp" alt="Leonardo de Jesús Gallego Arroyave" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Leonardo de Jesús Gallego Arroyave</p>
+            <span class="badge badge--liberal">Partido Liberal</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado de la Universidad Libre de Cali, con énfasis en responsabilidad civil y del Estado, y experiencia en derecho administrativo y de la seguridad social. Nació en Medellín, es parte de una familia con trayectoria política en el Valle y heredó la curul de su primo Fabio Arroyave. Fue elegido en 2022 con más de 40 mil votos como representante por el Valle, integrando la Comisión Tercera de Hacienda y Crédito Público, desde la cual ha apoyado las reformas del gobierno Petro y fue ponente de la reforma tributaria.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/katherine-miranda.webp" alt="Luvi Katherine Miranda Peña" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Luvi Katherine Miranda Peña</p>
+            <span class="badge badge--verde">Alianza Verde</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Politóloga de la Universidad del Rosario, con estudios de especialización en Cultura de Paz, Cohesión Social y Diálogo Intercultural en la Universidad de Barcelona. Nació en Bogotá en 1985 y se hizo visible como lideresa de acciones políticas no violentas y de las juventudes de la "ola verde" en 2010, impulsando iniciativas anticorrupción y de transparencia. Fue una de las representantes más votadas por Bogotá en las listas de la Alianza Verde y ha ganado perfil nacional por sus debates de control político.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/maria-eugenia-lopera.webp" alt="María Eugenia Lopera Monsalve" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">María Eugenia Lopera Monsalve</p>
+            <span class="badge badge--liberal">Partido Liberal</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Ingeniera sanitaria de la Universidad de Antioquia con especialización en Alta Gerencia. Desarrolló gran parte de su carrera profesional en el sector de vivienda y planeación local en el departamento de Antioquia. Saltó a la escena política nacional como fórmula de importantes barones electorales del Partido Liberal. Cobró alto protagonismo mediático por salvar la ponencia de la reforma a la salud del Gobierno en comisiones.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/olga-lucia-velasquez.webp" alt="Olga Lucía Velásquez Nieto" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Olga Lucía Velásquez Nieto</p>
+            <span class="badge badge--verde">Alianza Verde</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Ingeniera industrial de la Universidad Antonio Nariño, especialista en Gerencia de la Calidad en Servicios de Salud y magíster en Desarrollo Rural. Nació en Villavicencio (Meta) en 1972, pero forjó su carrera técnica y política en Bogotá, donde ocupó cargos de planeación, consultoría y gestión en el sector salud y social. Llegó por primera vez a la Cámara en 2014 con el Partido Liberal y retornó en 2022 por la Alianza Verde, desde donde integra la Comisión Cuarta y la Comisión de Acusaciones, con fuerte agenda en salud mental y presupuesto social.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/oscar-villamizar.webp" alt="Oscar Leonardo Villamizar Meneses" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Oscar Leonardo Villamizar Meneses</p>
+            <span class="badge badge--centro-democratico">Centro Democrático</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Abogado de la Universidad Santo Tomás de Bucaramanga, especialista en Derecho de los Negocios del Externado y con estudios de maestría en Derecho Urbano, Desarrollo Territorial y Sostenible. Nació en Bucaramanga en 1985, es hijo del excongresista Alirio Villamizar y ha ocupado cargos como asesor del Senado y secretario en la Gobernación de Santander. Llegó a la Cámara en 2018 por el Centro Democrático, ha integrado la Comisión Primera y la Comisión de Investigación y Acusación, y fue primer vicepresidente de la Cámara en la legislatura 2019–2020.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/wadith-manzur.webp" alt="Wadith Alberto Manzur Imbett" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Wadith Alberto Manzur Imbett</p>
+            <span class="badge badge--conservador">Partido Conservador</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Ingeniero industrial de la Universidad de los Andes, con maestría en Gobierno y Políticas Públicas (Externado) y posgrado en mercadeo político, representante a la Cámara por Córdoba desde 2018 por el Partido Conservador, donde ha integrado la Comisión Tercera y ha sido una de las mayores votaciones de su departamento.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/william-aljure.webp" alt="William Ferney Aljure Martínez" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">William Ferney Aljure Martínez</p>
+            <span class="badge badge--curules">Curules de paz</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Líder social y reclamante de tierras nacido en Villavicencio (Meta) en 1978, nieto del caudillo liberal llanero Dumar Aljure. Es víctima del conflicto armado, pues once miembros de su familia, incluidos sus padres, fueron asesinados por distintos actores armados, lo que marcó su labor como defensor de derechos humanos y ambientalista en el bajo Ariari. Fue voz activa en el proceso de paz de La Habana con la organización Conpazcol y en 2022 fue elegido representante por la Circunscripción Transitoria Especial de Paz número 7, desde donde impulsa agenda de paz, restitución de tierras y protección ambiental.</p>
+      </div>
+
+      <div class="member-card">
+        <div class="member-card__left">
+          <img src="img/wilmer-carrillo.webp" alt="Wilmer Ramiro Carrillo Mendoza" class="member-card__photo">
+          <div class="member-card__info">
+            <p class="member-card__name">Wilmer Ramiro Carrillo Mendoza</p>
+            <span class="badge badge--u">Partido de la U</span>
+          </div>
+        </div>
+        <p class="member-card__bio">Arquitecto de la Universidad Santo Tomás, con especializaciones vinculadas a gestión y administración de la construcción y de lo público. Nació en Arboledas (Norte de Santander) en 1973 y comenzó su carrera política como secretario de Vías e Infraestructura del departamento y luego gobernador encargado en varias ocasiones. Desde 2014 ha sido reelegido de forma consecutiva a la Cámara por Norte de Santander, consolidándose como uno de los caciques electorales del Partido de la U en la región y miembro de la Comisión Tercera.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PREGUNTAS FRECUENTES -->
+  <section class="preguntas" id="preguntas-frecuentes">
+    <div class="container">
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <div class="accordion">
+
+        <div class="accordion__item accordion__item--open">
+          <button class="accordion__trigger" aria-expanded="true">
+            <span>¿Qué es la Comisión de Acusaciones?</span>
+            <svg class="accordion__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion__body">
+            <p>Es una comisión constitucional y legal de la Cámara de Representantes encargada de investigar las denuncias presentadas contra altos funcionarios aforados.</p>
+          </div>
+        </div>
+
+        <div class="accordion__item">
+          <button class="accordion__trigger" aria-expanded="false">
+            <span>¿Puede investigar al Presidente de la República?</span>
+            <svg class="accordion__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion__body">
+            <p>Sí. La Comisión tiene competencia para investigar al Presidente de la República y emitir resoluciones de acusación que son enviadas al Senado de la República para su juzgamiento.</p>
+          </div>
+        </div>
+
+        <div class="accordion__item">
+          <button class="accordion__trigger" aria-expanded="false">
+            <span>¿Cómo se asignan las investigaciones?</span>
+            <svg class="accordion__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion__body">
+            <p>Las investigaciones se asignan entre los representantes que conforman la Comisión mediante sistemas de reparto y turno. El Observatorio monitorea estos mecanismos de distribución para promover la transparencia en la asignación de las cargas de trabajo.</p>
+          </div>
+        </div>
+
+        <div class="accordion__item">
+          <button class="accordion__trigger" aria-expanded="false">
+            <span>¿Por qué existe este Observatorio?</span>
+            <svg class="accordion__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion__body">
+            <p>El Observatorio nació de la necesidad de contar con información verificable y accesible sobre el funcionamiento de la Comisión de Acusaciones, una institución de gran importancia constitucional que históricamente ha operado con bajos niveles de transparencia y rendición de cuentas.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- OBSERVAR PARA MEJORAR -->
+  <section class="observar" id="observar-para-mejorar">
+    <div class="container">
+      <div class="observar__inner">
+        <h2 class="observar__title">Observar para mejorar</h2>
+        <div class="observar__text">
+          <p>El propósito del Observatorio no es sustituir a la Comisión ni anticipar conclusiones sobre investigaciones específicas.</p>
+          <p>Su propósito es promover una discusión pública basada en evidencia, datos verificables e información accesible sobre una de las instituciones más importantes —y menos estudiadas— del sistema constitucional colombiano.</p>
+          <p>La transparencia, la trazabilidad y la rendición de cuentas son condiciones necesarias para fortalecer la legitimidad institucional y la confianza ciudadana en el sistema de control de los más altos funcionarios del Estado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <div class="footer__obs-logo">Logo</div>
+        </div>
+        <div class="footer__right">
+          <p>Este es un proyecto de la Fundación para el Estado de Derecho</p>
+          <img src="img/logo-fede-blanco.png" alt="Fundación para el Estado de Derecho" class="footer__fede-logo">
+          <p>Contáctenos a <a href="mailto:notificaciones@fedecolombia.org">notificaciones@fedecolombia.org</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
