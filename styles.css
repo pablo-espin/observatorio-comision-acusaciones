@@ -582,10 +582,13 @@ img { display: block; max-width: 100%; }
 .accordion {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--grey);
+  background: var(--white);
+  border: 1px solid var(--dark);
+  box-shadow: var(--shadow);
 }
 
-.accordion__item { border-bottom: 1px solid var(--grey); }
+.accordion__item { border-bottom: 1px solid var(--light-grey); }
+.accordion__item:last-child { border-bottom: none; }
 
 .accordion__trigger {
   width: 100%;
@@ -593,7 +596,7 @@ img { display: block; max-width: 100%; }
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px 16px;
+  padding: 24px 28px;
   background: none;
   border: none;
   cursor: pointer;
@@ -622,7 +625,7 @@ img { display: block; max-width: 100%; }
 
 .accordion__body {
   display: none;
-  padding: 0 16px 20px;
+  padding: 0 28px 24px;
   font-family: var(--serif);
   font-size: 1rem;
   line-height: 1.65;
@@ -635,7 +638,11 @@ img { display: block; max-width: 100%; }
    OBSERVAR PARA MEJORAR
 ───────────────────────────── */
 .observar {
-  background: var(--dark);
+  position: relative;
+  overflow: hidden;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E") repeat,
+    var(--dark);
   border-top: 1px solid rgba(185,185,185,0.88);
   padding: 96px 0 80px;
   min-height: 512px;
@@ -643,7 +650,46 @@ img { display: block; max-width: 100%; }
   align-items: center;
 }
 
+/* Grid on left side */
+.observar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 58%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to right, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Moving ambient light */
+.observar::after {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 50, 0.07) 0%, transparent 65%);
+  animation: floatLight 14s ease-in-out infinite;
+  pointer-events: none;
+  top: -200px;
+  left: -150px;
+}
+
+@keyframes floatLight {
+  0%   { transform: translate(0,    0); }
+  25%  { transform: translate(280px, 120px); }
+  50%  { transform: translate(180px, 260px); }
+  75%  { transform: translate(-60px, 180px); }
+  100% { transform: translate(0,    0); }
+}
+
 .observar__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 53px;
   align-items: center;
@@ -655,8 +701,9 @@ img { display: block; max-width: 100%; }
   font-family: var(--sans);
   font-weight: 700;
   font-size: clamp(2.5rem, 5vw, 4rem);
-  color: var(--cream);
+  color: #FFF5B0;
   line-height: 1.15;
+  text-align: right;
 }
 
 .observar__text {
@@ -796,7 +843,7 @@ img { display: block; max-width: 100%; }
 
   /* Observar */
   .observar { min-height: auto; }
-  .observar__title { font-size: 2.25rem; text-align: center; }
+  .observar__title { font-size: 2.5rem; text-align: center; }
 
   /* Members */
   .members-grid { grid-template-columns: 1fr; }
