@@ -51,6 +51,30 @@ document.querySelectorAll('.accordion__trigger').forEach(trigger => {
   });
 });
 
+// ── DATO COUNTERS ──
+const counterEls = document.querySelectorAll('.dato__number[data-target]');
+
+const runCounter = (el, target, duration = 750) => {
+  const start = performance.now();
+  const tick = now => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    el.textContent = Math.round(target * eased).toLocaleString('es-CO');
+    if (progress < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+
+const datosGrid = document.querySelector('.datos-clave__grid');
+if (datosGrid) {
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      counterEls.forEach(el => runCounter(el, +el.dataset.target));
+      obs.disconnect();
+    }
+  }, { threshold: 0.3 }).observe(datosGrid);
+}
+
 // ── FLIP CARDS ──
 // On touch devices hover doesn't fire, so we toggle a class on click/tap.
 // On pointer devices with hover (desktop), CSS :hover handles it;
