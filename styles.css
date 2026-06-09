@@ -580,10 +580,10 @@ img { display: block; max-width: 100%; }
 .badge--pacto            { background: #f3d0f3; border-color: #ff99ff; }
 .badge--cambio-radical   { background: #d3d0f3; border-color: #2642dc; }
 .badge--conservador      { background: #d0e4f3; border-color: #1760ab; }
-.badge--centro-democratico { background: #f7d3bf; border-color: #dd6f00; }
-.badge--u                { background: #fdf9d8; border-color: #d7e600; }
-.badge--curules          { background: #fdd8d9; border-color: #e60004; }
-.badge--liberal          { background: #f1fff1; border-color: #1fbc00; }
+.badge--centro-democratico { background: #9ecbff; border-color: #000ac0; }
+.badge--u                { background: #ffe1b3; border-color: #e67700; }
+.badge--curules          { background: #d8fdef; border-color: #00e6b8; }
+.badge--liberal          { background: #ffbbbb; border-color: #bc0000; }
 .badge--verde            { background: #d4fff0; border-color: #00a667; }
 
 /* ─────────────────────────────
