@@ -40,6 +40,28 @@
 
 html { scroll-behavior: smooth; }
 
+/* ── REVEAL ANIMATIONS ── */
+.will-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero__logo-box { animation: fadeUp 0.7s ease both 0.15s; }
+.hero__title    { animation: fadeUp 0.7s ease both 0.3s; }
+.hero__subtitle { animation: fadeUp 0.7s ease both 0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .will-reveal { opacity: 1; transform: none; }
+  .hero__logo-box,
+  .hero__title,
+  .hero__subtitle { animation: none; }
+}
+
 body {
   font-family: var(--serif);
   background: var(--off-white);
@@ -950,7 +972,8 @@ img { display: block; max-width: 100%; }
 
   /* Flip cards */
   .flip-cards { flex-direction: column; align-items: center; }
-  .flip-card { width: min(250px, 100%); }
+  .flip-card { width: 100%; max-width: 400px; }
+  .flip-card__back p { font-size: 1rem; line-height: 1.45; }
 
   /* Members */
   .members-grid { grid-template-columns: repeat(2, 1fr); }

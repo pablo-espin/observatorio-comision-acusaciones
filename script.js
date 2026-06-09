@@ -51,6 +51,74 @@ document.querySelectorAll('.accordion__trigger').forEach(trigger => {
   });
 });
 
+// ── SCROLL REVEAL ──
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function revealEl(el, delay = 0) {
+  if (reducedMotion) { el.classList.remove('will-reveal'); return; }
+  setTimeout(() => {
+    el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+    el.classList.remove('will-reveal');
+    el.addEventListener('transitionend', () => {
+      el.style.transition = '';
+    }, { once: true });
+  }, delay);
+}
+
+// Elements to reveal as single units
+const revealTargets = [
+  '.intro__callout',
+  '.intro__body',
+  '.decisiones__content',
+  '.la-comision__intro',
+  '.accordion',
+  '.observar__inner',
+];
+
+revealTargets.forEach(sel => {
+  document.querySelectorAll(sel).forEach(el => el.classList.add('will-reveal'));
+});
+
+// Flip cards and member cards start hidden for stagger reveal
+document.querySelectorAll('.flip-card, .member-card').forEach(el => {
+  el.classList.add('will-reveal');
+});
+
+// Section-level observer
+const sectionObs = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    revealEl(entry.target);
+    obs.unobserve(entry.target);
+  });
+}, { threshold: 0.1 });
+
+revealTargets.forEach(sel => {
+  document.querySelectorAll(sel).forEach(el => sectionObs.observe(el));
+});
+
+// Stagger: flip cards
+const flipContainer = document.querySelector('.flip-cards');
+if (flipContainer) {
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    document.querySelectorAll('.flip-card').forEach((el, i) => revealEl(el, i * 80));
+    obs.disconnect();
+  }, { threshold: 0.1 }).observe(flipContainer);
+}
+
+// Stagger: member cards
+const membersGrid = document.querySelector('.members-grid');
+if (membersGrid) {
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    document.querySelectorAll('.member-card').forEach((el, i) => {
+      revealEl(el, Math.min(i * 50, 450));
+    });
+    obs.disconnect();
+  }, { threshold: 0.04 }).observe(membersGrid);
+}
+
 // ── DATO COUNTERS ──
 const counterEls = document.querySelectorAll('.dato__number[data-target]');
 
@@ -58,17 +126,20 @@ const runCounter = (el, target, duration = 750) => {
   const start = performance.now();
   const tick = now => {
     const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    const eased = 1 - Math.pow(1 - progress, 3);
     el.textContent = Math.round(target * eased).toLocaleString('es-CO');
     if (progress < 1) requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
 };
 
+// Fade in the whole datos grid and fire counters together
 const datosGrid = document.querySelector('.datos-clave__grid');
 if (datosGrid) {
+  datosGrid.classList.add('will-reveal');
   new IntersectionObserver((entries, obs) => {
     if (entries[0].isIntersecting) {
+      revealEl(datosGrid);
       counterEls.forEach(el => runCounter(el, +el.dataset.target));
       obs.disconnect();
     }
@@ -76,9 +147,6 @@ if (datosGrid) {
 }
 
 // ── FLIP CARDS ──
-// On touch devices hover doesn't fire, so we toggle a class on click/tap.
-// On pointer devices with hover (desktop), CSS :hover handles it;
-// click still toggles for users who prefer click.
 document.querySelectorAll('.flip-card').forEach(card => {
   let startX, startY;
 
@@ -90,7 +158,7 @@ document.querySelectorAll('.flip-card').forEach(card => {
   card.addEventListener('pointerup', e => {
     const dx = Math.abs(e.clientX - startX);
     const dy = Math.abs(e.clientY - startY);
-    if (dx < 8 && dy < 8) {           // tap/click, not scroll
+    if (dx < 8 && dy < 8) {
       card.classList.toggle('flipped');
     }
   });
