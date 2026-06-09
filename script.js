@@ -133,13 +133,14 @@ const runCounter = (el, target, duration = 750) => {
   requestAnimationFrame(tick);
 };
 
-// Fade in the whole datos grid and fire counters together
+// Fade in the whole datos section and fire counters together
+const datosSection = document.querySelector('.datos-clave');
 const datosGrid = document.querySelector('.datos-clave__grid');
-if (datosGrid) {
-  datosGrid.classList.add('will-reveal');
+if (datosSection && datosGrid) {
+  datosSection.classList.add('will-reveal');
   new IntersectionObserver((entries, obs) => {
     if (entries[0].isIntersecting) {
-      revealEl(datosGrid);
+      revealEl(datosSection);
       counterEls.forEach(el => runCounter(el, +el.dataset.target));
       obs.disconnect();
     }
