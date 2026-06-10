@@ -556,10 +556,35 @@ img { display: block; max-width: 100%; }
   text-align: center;
 }
 
-.member-card__bio {
+.member-card__ficha {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.member-card__ficha li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 7px 0;
+  border-top: 1px solid var(--light-grey);
+}
+.member-card__ficha li:last-child {
+  border-bottom: 1px solid var(--light-grey);
+}
+.ficha__label {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--grey);
+}
+.ficha__value {
   font-family: var(--serif);
-  font-size: 0.8rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  line-height: 1.3;
   color: var(--dark);
 }
 
