@@ -553,6 +553,15 @@ img { display: block; max-width: 100%; }
   padding-bottom: 48px;
 }
 
+.members-footnote {
+  width: min(1002px, 100% - 2 * clamp(1.5rem, 4vw, 3rem));
+  margin-inline: auto;
+  padding-bottom: 48px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--grey);
+}
+
 .member-card {
   background: var(--white);
   border: 1px solid var(--dark);
