@@ -28,29 +28,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// ── ACCORDION ──
-document.querySelectorAll('.accordion__trigger').forEach(trigger => {
-  trigger.addEventListener('click', () => {
-    const item   = trigger.closest('.accordion__item');
-    const body   = item.querySelector('.accordion__body');
-    const isOpen = item.classList.contains('open') || item.classList.contains('accordion__item--open');
-
-    // Collapse all
-    document.querySelectorAll('.accordion__item').forEach(i => {
-      i.classList.remove('open', 'accordion__item--open');
-      i.querySelector('.accordion__body').style.display = 'none';
-      i.querySelector('.accordion__trigger').setAttribute('aria-expanded', 'false');
-    });
-
-    // If it was closed, open it
-    if (!isOpen) {
-      item.classList.add('open');
-      body.style.display = 'block';
-      trigger.setAttribute('aria-expanded', 'true');
-    }
-  });
-});
-
 // ── SCROLL REVEAL ──
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -71,7 +48,6 @@ const revealTargets = [
   '.intro__body',
   '.decisiones__content',
   '.la-comision__intro',
-  '.accordion',
   '.observar__inner',
 ];
 
@@ -107,17 +83,16 @@ if (flipContainer) {
   }, { threshold: 0.1 }).observe(flipContainer);
 }
 
-// Stagger: member cards
-const membersGrid = document.querySelector('.members-grid');
-if (membersGrid) {
+// Stagger: member cards (each grid reveals on its own)
+document.querySelectorAll('.members-grid').forEach(grid => {
   new IntersectionObserver((entries, obs) => {
     if (!entries[0].isIntersecting) return;
-    document.querySelectorAll('.member-card').forEach((el, i) => {
+    grid.querySelectorAll('.member-card').forEach((el, i) => {
       revealEl(el, Math.min(i * 50, 450));
     });
     obs.disconnect();
-  }, { threshold: 0.04 }).observe(membersGrid);
-}
+  }, { threshold: 0.04 }).observe(grid);
+});
 
 // ── DATO COUNTERS ──
 const counterEls = document.querySelectorAll('.dato__number[data-target]');

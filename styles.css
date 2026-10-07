@@ -553,6 +553,23 @@ img { display: block; max-width: 100%; }
   padding-bottom: 48px;
 }
 
+/* Two cards, same width as a 3-col card, centered */
+.members-grid--mesa {
+  grid-template-columns: repeat(2, calc((100% - 48px) / 3));
+  justify-content: center;
+}
+
+.members-subtitle {
+  width: min(1002px, 100% - 2 * clamp(1.5rem, 4vw, 3rem));
+  margin: 0 auto 32px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  line-height: 1.2;
+  text-align: center;
+  color: var(--dark);
+}
+
 .members-footnote {
   width: min(1002px, 100% - 2 * clamp(1.5rem, 4vw, 3rem));
   margin-inline: auto;
@@ -622,6 +639,16 @@ img { display: block; max-width: 100%; }
   text-align: center;
 }
 
+.member-card__role {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+  text-align: center;
+}
+
 .member-card__ficha {
   list-style: none;
   padding: 0;
@@ -676,77 +703,6 @@ img { display: block; max-width: 100%; }
 .badge--curules          { background: #d8fdef; border-color: #00e6b8; }
 .badge--liberal          { background: #ffbbbb; border-color: #bc0000; }
 .badge--verde            { background: #d4fff0; border-color: #00a667; }
-
-/* ─────────────────────────────
-   PREGUNTAS FRECUENTES
-───────────────────────────── */
-.preguntas {
-  background: var(--light-grey);
-  padding: 96px 0 80px;
-}
-
-.preguntas .container {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-}
-
-.accordion {
-  display: flex;
-  flex-direction: column;
-  background: var(--white);
-  border: 1px solid var(--dark);
-  box-shadow: var(--shadow);
-}
-
-.accordion__item { border-bottom: 1px solid var(--light-grey); }
-.accordion__item:last-child { border-bottom: none; }
-
-.accordion__trigger {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 24px 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.15s;
-}
-.accordion__trigger:hover { background: rgba(0,0,0,0.025); }
-
-.accordion__trigger span {
-  font-family: var(--sans);
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  color: var(--dark);
-  line-height: 1.3;
-}
-
-.accordion__icon {
-  flex-shrink: 0;
-  width: 26px;
-  height: 26px;
-  color: var(--dark);
-  transition: transform 0.3s ease;
-}
-
-.accordion__item--open .accordion__icon,
-.accordion__item.open .accordion__icon {
-  transform: rotate(180deg);
-}
-
-.accordion__body {
-  display: none;
-  padding: 0 28px 24px;
-  font-family: var(--serif);
-  font-size: 1rem;
-  line-height: 1.65;
-  color: var(--dark);
-}
-
-.accordion__item--open .accordion__body { display: block; }
 
 /* ─────────────────────────────
    OBSERVAR PARA MEJORAR
@@ -1053,7 +1009,8 @@ img { display: block; max-width: 100%; }
   .observar__title { font-size: 2.5rem; text-align: center; }
 
   /* Members */
-  .members-grid { grid-template-columns: 1fr; }
+  .members-grid,
+  .members-grid--mesa { grid-template-columns: 1fr; }
 
   /* Footer */
   .footer__inner { grid-template-columns: 1fr; gap: 40px; }
