@@ -16,6 +16,25 @@ menu.querySelectorAll('a').forEach(link => {
   });
 });
 
+// ── NAV DROPDOWN ──
+document.querySelectorAll('.nav__dropdown').forEach(dropdown => {
+  const toggle = dropdown.querySelector('.nav__dropdown-toggle');
+  const setOpen = open => {
+    dropdown.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+  };
+  toggle.addEventListener('click', e => {
+    e.stopPropagation();
+    setOpen(!dropdown.classList.contains('open'));
+  });
+  document.addEventListener('click', e => {
+    if (!dropdown.contains(e.target)) setOpen(false);
+  });
+  dropdown.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { setOpen(false); toggle.focus(); }
+  });
+});
+
 // Offset anchor targets so the fixed nav doesn't cover them
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', e => {
@@ -120,6 +139,33 @@ if (datosSection && datosGrid) {
       obs.disconnect();
     }
   }, { threshold: 0.3 }).observe(datosGrid);
+}
+
+// ── CAROUSEL ──
+// Scroll-snap track; arrows move one card and hide when everything fits.
+// Called by contenido.js once the cards are rendered.
+function initCarousel(carousel) {
+  const track = carousel.querySelector('.carousel__track');
+  const prev  = carousel.querySelector('.carousel__btn--prev');
+  const next  = carousel.querySelector('.carousel__btn--next');
+
+  const step = () => {
+    const card = track.firstElementChild;
+    return card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0) : 0;
+  };
+
+  const update = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    carousel.classList.toggle('carousel--static', max <= 1);
+    prev.disabled = track.scrollLeft <= 1;
+    next.disabled = track.scrollLeft >= max - 1;
+  };
+
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: reducedMotion ? 'auto' : 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left:  step(), behavior: reducedMotion ? 'auto' : 'smooth' }));
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 }
 
 // ── FLIP CARDS ──
