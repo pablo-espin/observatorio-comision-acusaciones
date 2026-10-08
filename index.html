@@ -2,14 +2,19 @@
 <html lang="es">
 <head>
 
-    <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-76JD3PP0E9"></script>
+    <!-- Google tag (gtag.js): only on the live domain, so previews and local tests aren't counted -->
   <script>
+    if (location.hostname === 'observatoriocomision.fedecolombia.org') {
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-76JD3PP0E9';
+      document.head.appendChild(gtagScript);
+
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      window.gtag = function () { dataLayer.push(arguments); };
       gtag('js', new Date());
-    
       gtag('config', 'G-76JD3PP0E9');
+    }
   </script>
 
   <meta charset="UTF-8">
@@ -60,8 +65,8 @@
       <li class="nav__dropdown">
         <button class="nav__link nav__dropdown-toggle" aria-expanded="false" aria-controls="navSubPublicaciones">Publicaciones</button>
         <ul class="nav__submenu" id="navSubPublicaciones">
-          <li><a href="publicaciones.html#publicaciones" class="nav__sublink">Publicaciones</a></li>
           <li><a href="publicaciones.html#boletines" class="nav__sublink">Boletines</a></li>
+          <li><a href="publicaciones.html#comunicados" class="nav__sublink">Comunicados</a></li>
         </ul>
       </li>
       <li><a href="https://fedecolombia.org/" class="nav__link" target="_blank" rel="noopener noreferrer">Sobre nosotros</a></li>
@@ -129,31 +134,6 @@
         </div>
       </div>
       <a href="publicaciones.html" class="link-more">Ver todas las publicaciones</a>
-    </div>
-  </section>
-
-  <!-- DECISIONES JUDICIALES -->
-  <section class="decisiones" id="decisiones-judiciales">
-    <div class="container">
-      <h2 class="section-title">Tres decisiones judiciales que abrieron información de interés público</h2>
-      <div class="decisiones__content">
-        <div class="decisiones__text">
-          <p>Durante 2025 y 2026, la Fundación para el Estado de Derecho obtuvo tres decisiones favorables del Tribunal Administrativo de Cundinamarca mediante recursos de insistencia promovidos contra negativas de acceso a información pública de la Comisión.</p>
-          <p>Los jueces concluyeron que información relacionada con el funcionamiento institucional de la Comisión, sus investigaciones, archivos, prescripciones, caducidades e indicadores de gestión no puede permanecer oculta cuando no existe una reserva legal expresa.</p>
-          <p>Estas decisiones constituyen uno de los avances más importantes en materia de acceso a la información y rendición de cuentas sobre la Comisión desde la expedición de la Constitución de 1991.</p>
-        </div>
-        <div class="decisiones__box">
-          <h3>Hoy, la ciudadanía puede exigir conocer</h3>
-          <ul>
-            <li>Indicadores de gestión institucional, sistema de repartos y turnos.</li>
-            <li>Número de denuncias y quejas recibidas.</li>
-            <li>Número de investigaciones abiertas.</li>
-            <li>Procesos terminados por prescripción o caducidad.</li>
-            <li>Estado general de los expedientes.</li>
-            <li>Estadísticas sobre el trámite de las investigaciones.</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -520,18 +500,28 @@
     </div>
   </section>
 
-  <!-- COMUNICADOS (from WordPress; hidden until loaded) -->
-  <section class="comunicados" id="comunicados" hidden>
+  <!-- DECISIONES JUDICIALES -->
+  <section class="decisiones" id="decisiones-judiciales">
     <div class="container">
-      <h2 class="section-title">Comunicados</h2>
-      <div class="carousel" data-feed="comunicados">
-        <div class="carousel__track"></div>
-        <div class="carousel__controls">
-          <button class="carousel__btn carousel__btn--prev" aria-label="Anterior">←</button>
-          <button class="carousel__btn carousel__btn--next" aria-label="Siguiente">→</button>
+      <h2 class="section-title">Tres decisiones judiciales que abrieron información de interés público</h2>
+      <div class="decisiones__content">
+        <div class="decisiones__text">
+          <p>Durante 2025 y 2026, la Fundación para el Estado de Derecho obtuvo tres decisiones favorables del Tribunal Administrativo de Cundinamarca mediante recursos de insistencia promovidos contra negativas de acceso a información pública de la Comisión.</p>
+          <p>Los jueces concluyeron que información relacionada con el funcionamiento institucional de la Comisión, sus investigaciones, archivos, prescripciones, caducidades e indicadores de gestión no puede permanecer oculta cuando no existe una reserva legal expresa.</p>
+          <p>Estas decisiones constituyen uno de los avances más importantes en materia de acceso a la información y rendición de cuentas sobre la Comisión desde la expedición de la Constitución de 1991.</p>
+        </div>
+        <div class="decisiones__box">
+          <h3>Hoy, la ciudadanía puede exigir conocer</h3>
+          <ul>
+            <li>Indicadores de gestión institucional, sistema de repartos y turnos.</li>
+            <li>Número de denuncias y quejas recibidas.</li>
+            <li>Número de investigaciones abiertas.</li>
+            <li>Procesos terminados por prescripción o caducidad.</li>
+            <li>Estado general de los expedientes.</li>
+            <li>Estadísticas sobre el trámite de las investigaciones.</li>
+          </ul>
         </div>
       </div>
-      <a href="https://fedecolombia.org/prensa/" class="link-more" target="_blank" rel="noopener">Ver todos los comunicados</a>
     </div>
   </section>
 
@@ -569,8 +559,8 @@
             <li><a href="#datos-clave">Datos clave</a></li>
             <li><a href="#que-observamos">Qué observamos</a></li>
             <li><a href="#la-comision">La Comisión</a></li>
-            <li><a href="publicaciones.html#publicaciones">Publicaciones</a></li>
             <li><a href="publicaciones.html#boletines">Boletines</a></li>
+            <li><a href="publicaciones.html#comunicados">Comunicados</a></li>
             <li><a href="https://fedecolombia.org/" target="_blank" rel="noopener noreferrer">Sobre nosotros</a></li>
           </ul>
         </nav>
@@ -600,7 +590,7 @@
       </div>
 
       <div class="footer__bottom">
-        <p>© 2026 Observatorio de la Comisión de Acusaciones</p>
+        <p>2026. Observatorio de la Comisión de Acusaciones</p>
         <p>Fundación para el Estado de Derecho</p>
       </div>
 

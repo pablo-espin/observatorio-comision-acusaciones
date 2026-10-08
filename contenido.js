@@ -1,17 +1,17 @@
 // ── CONTENIDO DINÁMICO (WordPress REST API) ──
-// Publicaciones/boletines come from the obs_publicacion post type;
-// comunicados are Documentos in "Comunicado de prensa" carrying the Observatorio tag.
+// Boletines and comunicados are Documentos on fedecolombia.org. The Observatorio
+// tag decides what shows here; the category decides whether it's a boletín or a comunicado.
 
 // Switch to https://fedecolombia.org/wp-json/wp/v2 when going live
 const WP_API = 'https://staging.fedecolombia.org/wp-json/wp/v2';
 
-const PUBS_ENDPOINT      = 'observatorio-publicaciones';
-const COMUNICADOS_CAT    = 'comunicado';                         // category slug
-const COMUNICADOS_TAG    = 'observatorio-comision-acusaciones';  // tag slug
-const COMUNICADOS_LIMIT  = 6;
-const ULTIMAS_LIMIT      = 3;
-
-const TIPO_LABEL = { publicacion: 'Publicación', boletin: 'Boletín' };
+const DOCS_ENDPOINT = 'doc';
+const OBS_TAG       = 'observatorio-comision-acusaciones';  // tag slug
+const TIPOS = {
+  boletin:    { cat: 'boletin-observatorio', label: 'Boletín',    plural: 'boletines' },
+  comunicado: { cat: 'comunicado',           label: 'Comunicado', plural: 'comunicados' },
+};
+const ULTIMAS_LIMIT = 3;
 
 // ── Helpers ──
 async function wpFetch(path, params = {}) {
@@ -32,12 +32,40 @@ async function wpFetchAll(path, params = {}) {
   return first.data.concat(...rest);
 }
 
+// Term IDs differ between staging and live, so look them up by slug
+let termsPromise;
+function getTerms() {
+  termsPromise ??= Promise.all([
+    wpFetch('tags', { slug: OBS_TAG, _fields: 'id' }),
+    wpFetch('categories', { slug: Object.values(TIPOS).map(t => t.cat).join(','), _fields: 'id,slug' }),
+  ]).then(([tags, cats]) => {
+    const catIds = {};
+    Object.entries(TIPOS).forEach(([tipo, t]) => {
+      const cat = cats.data.find(c => c.slug === t.cat);
+      if (cat) catIds[tipo] = cat.id;
+    });
+    return { tagId: tags.data[0]?.id, catIds };
+  });
+  return termsPromise;
+}
+
+const tipoOf = (item, catIds) =>
+  Object.keys(catIds).find(tipo => item.categories?.includes(catIds[tipo]));
+
 const escapeHTML = str => String(str ?? '').replace(/[&<>"']/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 }[c]));
 
 // WP titles arrive HTML-encoded (&#8211; etc.); decode to plain text
 const decodeHTML = html => new DOMParser().parseFromString(html || '', 'text/html').body.textContent;
+
+// Only http(s) links reach an href
+function safeURL(value) {
+  try {
+    const url = new URL(value, location.href);
+    return /^https?:$/.test(url.protocol) ? url.href : null;
+  } catch { return null; }
+}
 
 // ACF date picker returns "Ymd" (e.g. 20261003); fall back to the post date
 function pubDate(item) {
@@ -54,117 +82,102 @@ const byDateDesc = (a, b) => pubDate(b) - pubDate(a);
 
 // srcset from an ACF image array, so cards don't download the full-size cover
 function imgAttrs(img, sizes) {
-  if (!img || typeof img !== 'object') return null;
+  if (!img || typeof img !== 'object' || !safeURL(img.url)) return null;
   const candidates = ['medium', 'medium_large', 'large']
-    .filter(s => img.sizes?.[s])
+    .filter(s => safeURL(img.sizes?.[s]))
     .map(s => `${img.sizes[s]} ${img.sizes[`${s}-width`]}w`);
   candidates.push(`${img.url} ${img.width}w`);
   return `src="${escapeHTML(img.sizes?.medium_large || img.url)}" srcset="${escapeHTML(candidates.join(', '))}" sizes="${sizes}"`;
 }
 
-// Keeps editor HTML but drops anything executable
+// Cover image, or a plain blue placeholder (comunicados always use it for now)
+function coverHTML(item, tipo, sizes, alt = '') {
+  const img = tipo === 'comunicado' ? null : imgAttrs(item.acf?.imagen_tarjeta, sizes);
+  return img
+    ? `<img ${img} alt="${escapeHTML(alt)}" loading="lazy">`
+    : `<span class="cover-placeholder" aria-hidden="true">${escapeHTML(TIPOS[tipo].label)}</span>`;
+}
+
+function metaHTML(item, tipo) {
+  return `
+    <p class="pub-card__meta">
+      <span class="tag tag--${tipo}">${escapeHTML(TIPOS[tipo].label)}</span>
+      <time datetime="${pubDate(item).toISOString().slice(0, 10)}">${formatDate(pubDate(item))}</time>
+    </p>`;
+}
+
+// Editor HTML with anything executable removed; only YouTube/Vimeo iframes survive
 const EMBED_HOSTS = /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com)\//i;
-const URL_ATTRS = /^(href|src|action|formaction|xlink:href|poster|data)$/;
-const BAD_URL = /^\s*(javascript|vbscript|data):/i;
 
 function sanitize(html) {
-  const doc = new DOMParser().parseFromString(html || '', 'text/html');
-  doc.querySelectorAll('script, style, object, embed, form, link, meta, base').forEach(el => el.remove());
-  doc.querySelectorAll('iframe').forEach(el => {
-    if (!EMBED_HOSTS.test(el.getAttribute('src') || '')) el.remove();
-  });
-  doc.querySelectorAll('*').forEach(el => {
-    [...el.attributes].forEach(attr => {
-      const name = attr.name.toLowerCase();
-      if (name.startsWith('on') || name === 'srcdoc' || (URL_ATTRS.test(name) && BAD_URL.test(attr.value))) {
-        el.removeAttribute(attr.name);
-      }
-    });
-    if (el.tagName === 'A' && /^https?:/i.test(el.getAttribute('href') || '')) {
-      el.setAttribute('target', '_blank');
-      el.setAttribute('rel', 'noopener');
+  if (!window.DOMPurify) return '';
+  DOMPurify.removeAllHooks();
+  DOMPurify.addHook('afterSanitizeAttributes', node => {
+    if (node.tagName === 'IFRAME' && !EMBED_HOSTS.test(node.getAttribute('src') || '')) {
+      node.remove();
+    } else if (node.tagName === 'A' && /^https?:/i.test(node.getAttribute('href') || '')) {
+      node.setAttribute('target', '_blank');
+      node.setAttribute('rel', 'noopener');
     }
   });
-  return doc.body.innerHTML;
+  return DOMPurify.sanitize(html || '', {
+    ADD_TAGS: ['iframe'],
+    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'target'],
+    FORBID_TAGS: ['style', 'form'],
+  });
 }
 
 const detailURL = item => `publicacion.html?slug=${encodeURIComponent(item.slug)}`;
 
-// ── Card templates ──
-function pubCard(item, sizes) {
-  const tipo = item.acf?.tipo_publicacion;
-  const img = imgAttrs(item.acf?.imagen_tarjeta, sizes);
+// ── Card template ──
+function pubCard(item, tipo, sizes) {
   return `
     <a class="pub-card" href="${detailURL(item)}">
-      <div class="pub-card__cover">
-        ${img ? `<img ${img} alt="" loading="lazy">` : ''}
-      </div>
+      <div class="pub-card__cover">${coverHTML(item, tipo, sizes)}</div>
       <div class="pub-card__body">
-        <p class="pub-card__meta">
-          <span class="tag tag--${escapeHTML(tipo)}">${escapeHTML(TIPO_LABEL[tipo] || 'Publicación')}</span>
-          <time datetime="${pubDate(item).toISOString().slice(0, 10)}">${formatDate(pubDate(item))}</time>
-        </p>
+        ${metaHTML(item, tipo)}
         <h3 class="pub-card__title">${escapeHTML(decodeHTML(item.title?.rendered))}</h3>
         ${item.acf?.documento_resumen ? `<p class="pub-card__summary">${escapeHTML(item.acf.documento_resumen)}</p>` : ''}
       </div>
     </a>`;
 }
 
-function comunicadoCard(item) {
-  return `
-    <a class="com-card" href="${escapeHTML(item.link)}" target="_blank" rel="noopener">
-      <p class="com-card__meta">
-        <span class="tag tag--comunicado">Comunicado</span>
-        <time datetime="${pubDate(item).toISOString().slice(0, 10)}">${formatDate(pubDate(item))}</time>
-      </p>
-      <h3 class="com-card__title">${escapeHTML(decodeHTML(item.title?.rendered))}</h3>
-      ${item.acf?.documento_resumen ? `<p class="com-card__summary">${escapeHTML(item.acf.documento_resumen)}</p>` : ''}
-      <span class="com-card__more">Leer comunicado</span>
-    </a>`;
-}
-
 const statusMsg = text => `<p class="feed-status" role="status">${escapeHTML(text)}</p>`;
 
-// List fields only: leaves out the full content to keep responses small
-const LIST_PARAMS = { acf_format: 'standard', _fields: 'id,slug,date,title,acf' };
+// Every tagged boletín and comunicado, newest first, each with its tipo attached
+const LIST_FIELDS = 'id,slug,date,categories,title,acf.fecha_publicacion,acf.documento_resumen,acf.imagen_tarjeta';
+
+async function loadDocs() {
+  const { tagId, catIds } = await getTerms();
+  if (!tagId || !Object.keys(catIds).length) return [];
+  const items = await wpFetchAll(DOCS_ENDPOINT, {
+    tags: tagId,
+    categories: Object.values(catIds).join(','),
+    acf_format: 'standard',
+    _fields: LIST_FIELDS,
+  });
+  return items
+    .map(item => ({ item, tipo: tipoOf(item, catIds) }))
+    .filter(d => d.tipo)
+    .sort((a, b) => byDateDesc(a.item, b.item));
+}
 
 // ── Home: últimas publicaciones ──
 async function loadUltimas(section) {
-  const items = (await wpFetchAll(PUBS_ENDPOINT, LIST_PARAMS)).sort(byDateDesc).slice(0, ULTIMAS_LIMIT);
-  if (!items.length) return;
+  const docs = (await loadDocs()).slice(0, ULTIMAS_LIMIT);
+  if (!docs.length) return;
   const carousel = section.querySelector('.carousel');
   carousel.querySelector('.carousel__track').innerHTML =
-    items.map(i => pubCard(i, '(max-width: 768px) 80vw, 320px')).join('');
-  section.hidden = false;
-  initCarousel(carousel);
-}
-
-// ── Home: comunicados ──
-async function loadComunicados(section) {
-  const [cats, tags] = await Promise.all([
-    wpFetch('categories', { slug: COMUNICADOS_CAT, _fields: 'id' }),
-    wpFetch('tags', { slug: COMUNICADOS_TAG, _fields: 'id' }),
-  ]);
-  if (!cats.data.length || !tags.data.length) return;
-  const { data: items } = await wpFetch('doc', {
-    categories: cats.data[0].id,
-    tags: tags.data[0].id,
-    per_page: COMUNICADOS_LIMIT,
-    acf_format: 'standard',
-    _fields: 'id,date,link,title,acf.fecha_publicacion,acf.documento_resumen',
-  });
-  if (!items.length) return;
-  const carousel = section.querySelector('.carousel');
-  carousel.querySelector('.carousel__track').innerHTML = items.map(comunicadoCard).join('');
+    docs.map(d => pubCard(d.item, d.tipo, '(max-width: 768px) 80vw, 320px')).join('');
   section.hidden = false;
   initCarousel(carousel);
 }
 
 // ── Publicaciones page: one fetch, split into the two sections ──
 async function loadRepositorio(grids) {
-  let items;
+  let docs;
   try {
-    items = (await wpFetchAll(PUBS_ENDPOINT, LIST_PARAMS)).sort(byDateDesc);
+    docs = await loadDocs();
   } catch (err) {
     console.error(err);
     grids.forEach(g => { g.innerHTML = statusMsg('No pudimos cargar el contenido. Intente de nuevo más tarde.'); });
@@ -172,16 +185,17 @@ async function loadRepositorio(grids) {
   }
   grids.forEach(grid => {
     const tipo = grid.dataset.tipo;
-    const mine = items.filter(i => (i.acf?.tipo_publicacion || 'publicacion') === tipo);
+    const mine = docs.filter(d => d.tipo === tipo);
     grid.innerHTML = mine.length
-      ? mine.map(i => pubCard(i, '(max-width: 480px) 90vw, (max-width: 768px) 45vw, 320px')).join('')
-      : statusMsg(tipo === 'boletin' ? 'Aún no hay boletines publicados.' : 'Aún no hay publicaciones.');
+      ? mine.map(d => pubCard(d.item, tipo, '(max-width: 480px) 90vw, (max-width: 768px) 45vw, 320px')).join('')
+      : statusMsg(`Aún no hay ${TIPOS[tipo].plural} publicados.`);
   });
   // Content above the anchor just changed height; land on the right section
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
 }
 
 // ── Detail page ──
+// Boletines: cover, meta, summary and PDF. Comunicados also show the full text.
 async function loadDetalle(main) {
   const container = main.querySelector('.container');
   const slug = new URLSearchParams(location.search).get('slug');
@@ -192,50 +206,50 @@ async function loadDetalle(main) {
   };
   if (!slug) return notFound();
 
-  let item;
+  let item, tipo;
   try {
-    ({ data: [item] } = await wpFetch(PUBS_ENDPOINT, { slug, acf_format: 'standard' }));
+    const { tagId, catIds } = await getTerms();
+    if (!tagId) return notFound();
+    ({ data: [item] } = await wpFetch(DOCS_ENDPOINT, {
+      slug,
+      tags: tagId,
+      acf_format: 'standard',
+      _fields: `${LIST_FIELDS},content,acf.archivo_pdf`,
+    }));
+    tipo = item && tipoOf(item, catIds);
   } catch (err) {
     console.error(err);
     container.innerHTML = statusMsg('No pudimos cargar la publicación. Intente de nuevo más tarde.');
     return;
   }
-  if (!item) return notFound();
+  if (!tipo) return notFound();
 
   const acf = item.acf || {};
-  const tipo = acf.tipo_publicacion || 'publicacion';
   const title = decodeHTML(item.title?.rendered);
-  const img = imgAttrs(acf.imagen_tarjeta, '(max-width: 768px) 80vw, 340px');
-  const pdf = typeof acf.archivo_pdf === 'string' ? acf.archivo_pdf : acf.archivo_pdf?.url;
-  const back = tipo === 'boletin' ? 'boletines' : 'publicaciones';
+  const pdf = safeURL(typeof acf.archivo_pdf === 'string' ? acf.archivo_pdf : acf.archivo_pdf?.url);
+  const body = tipo === 'comunicado' ? sanitize(item.content?.rendered).trim() : '';
 
   document.title = `${title} - Observatorio de la Comisión de Acusaciones`;
 
   container.innerHTML = `
-    <a href="publicaciones.html#${back}" class="detalle__back">← Volver a ${back}</a>
+    <a href="publicaciones.html" class="detalle__back">← Volver a publicaciones</a>
     <div class="detalle__header">
       <div class="detalle__cover">
-        ${img ? `<img ${img} alt="${escapeHTML(acf.imagen_tarjeta.alt)}">` : ''}
+        ${coverHTML(item, tipo, '(max-width: 768px) 80vw, 340px', acf.imagen_tarjeta?.alt)}
       </div>
       <div class="detalle__intro">
-        <p class="pub-card__meta">
-          <span class="tag tag--${escapeHTML(tipo)}">${escapeHTML(TIPO_LABEL[tipo] || 'Publicación')}</span>
-          <time datetime="${pubDate(item).toISOString().slice(0, 10)}">${formatDate(pubDate(item))}</time>
-        </p>
+        ${metaHTML(item, tipo)}
         <h1 class="detalle__title">${escapeHTML(title)}</h1>
         ${acf.documento_resumen ? `<p class="detalle__summary">${escapeHTML(acf.documento_resumen)}</p>` : ''}
         ${pdf ? `<a href="${escapeHTML(pdf)}" class="btn-download" target="_blank" rel="noopener" download>Descargar PDF</a>` : ''}
       </div>
     </div>
-    <div class="prose">${sanitize(item.content?.rendered)}</div>`;
+    ${body ? `<div class="prose">${body}</div>` : ''}`;
 }
 
 // ── Boot: each loader runs only if its container is on the page ──
 const ultimasSection = document.getElementById('ultimas-publicaciones');
 if (ultimasSection) loadUltimas(ultimasSection).catch(console.error);
-
-const comunicadosSection = document.getElementById('comunicados');
-if (comunicadosSection) loadComunicados(comunicadosSection).catch(console.error);
 
 const repoGrids = document.querySelectorAll('[data-feed="repositorio"]');
 if (repoGrids.length) loadRepositorio(repoGrids);

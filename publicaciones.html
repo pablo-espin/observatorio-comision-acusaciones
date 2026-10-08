@@ -2,14 +2,19 @@
 <html lang="es">
 <head>
 
-    <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-76JD3PP0E9"></script>
+    <!-- Google tag (gtag.js): only on the live domain, so previews and local tests aren't counted -->
   <script>
+    if (location.hostname === 'observatoriocomision.fedecolombia.org') {
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-76JD3PP0E9';
+      document.head.appendChild(gtagScript);
+
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      window.gtag = function () { dataLayer.push(arguments); };
       gtag('js', new Date());
-    
       gtag('config', 'G-76JD3PP0E9');
+    }
   </script>
 
   <meta charset="UTF-8">
@@ -54,8 +59,8 @@
       <li class="nav__dropdown">
         <button class="nav__link nav__dropdown-toggle" aria-expanded="false" aria-controls="navSubPublicaciones">Publicaciones</button>
         <ul class="nav__submenu" id="navSubPublicaciones">
-          <li><a href="publicaciones.html#publicaciones" class="nav__sublink">Publicaciones</a></li>
           <li><a href="publicaciones.html#boletines" class="nav__sublink">Boletines</a></li>
+          <li><a href="publicaciones.html#comunicados" class="nav__sublink">Comunicados</a></li>
         </ul>
       </li>
       <li><a href="https://fedecolombia.org/" class="nav__link" target="_blank" rel="noopener noreferrer">Sobre nosotros</a></li>
@@ -66,30 +71,30 @@
   <header class="page-header">
     <div class="container">
       <h1 class="page-header__title">Publicaciones</h1>
-      <p class="page-header__intro">Aquí encontrará todas las publicaciones y boletines del Observatorio.</p>
+      <p class="page-header__intro">Aquí encontrará todos los boletines y comunicados del Observatorio.</p>
       <ul class="page-header__jump">
-        <li><a href="#publicaciones">Publicaciones</a></li>
         <li><a href="#boletines">Boletines</a></li>
+        <li><a href="#comunicados">Comunicados</a></li>
       </ul>
     </div>
   </header>
 
-  <!-- PUBLICACIONES -->
-  <section class="repositorio" id="publicaciones">
-    <div class="container">
-      <h2 class="section-title">Publicaciones</h2>
-      <div class="pub-grid" data-feed="repositorio" data-tipo="publicacion">
-        <p class="feed-status" role="status">Cargando publicaciones…</p>
-      </div>
-    </div>
-  </section>
-
   <!-- BOLETINES -->
-  <section class="repositorio repositorio--alt" id="boletines">
+  <section class="repositorio" id="boletines">
     <div class="container">
       <h2 class="section-title">Boletines</h2>
       <div class="pub-grid" data-feed="repositorio" data-tipo="boletin">
         <p class="feed-status" role="status">Cargando boletines…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMUNICADOS -->
+  <section class="repositorio repositorio--alt" id="comunicados">
+    <div class="container">
+      <h2 class="section-title">Comunicados</h2>
+      <div class="pub-grid" data-feed="repositorio" data-tipo="comunicado">
+        <p class="feed-status" role="status">Cargando comunicados…</p>
       </div>
     </div>
   </section>
@@ -111,8 +116,8 @@
             <li><a href="index.html#datos-clave">Datos clave</a></li>
             <li><a href="index.html#que-observamos">Qué observamos</a></li>
             <li><a href="index.html#la-comision">La Comisión</a></li>
-            <li><a href="publicaciones.html#publicaciones">Publicaciones</a></li>
             <li><a href="publicaciones.html#boletines">Boletines</a></li>
+            <li><a href="publicaciones.html#comunicados">Comunicados</a></li>
             <li><a href="https://fedecolombia.org/" target="_blank" rel="noopener noreferrer">Sobre nosotros</a></li>
           </ul>
         </nav>
@@ -142,7 +147,7 @@
       </div>
 
       <div class="footer__bottom">
-        <p>© 2026 Observatorio de la Comisión de Acusaciones</p>
+        <p>2026. Observatorio de la Comisión de Acusaciones</p>
         <p>Fundación para el Estado de Derecho</p>
       </div>
 
