@@ -91,9 +91,9 @@ function imgAttrs(img, sizes) {
   return `src="${escapeHTML(img.sizes?.medium_large || img.url)}" srcset="${escapeHTML(candidates.join(', '))}" sizes="${sizes}"`;
 }
 
-// Cover image, or a plain blue placeholder (comunicados always use it for now)
+// Cover image, or a plain blue placeholder when the document has none
 function coverHTML(item, tipo, sizes, alt = '') {
-  const img = tipo === 'comunicado' ? null : imgAttrs(item.acf?.imagen_tarjeta, sizes);
+  const img = imgAttrs(item.acf?.imagen_tarjeta, sizes);
   return img
     ? `<img ${img} alt="${escapeHTML(alt)}" loading="lazy">`
     : `<span class="cover-placeholder" aria-hidden="true">${escapeHTML(TIPOS[tipo].label)}</span>`;
