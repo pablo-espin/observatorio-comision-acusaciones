@@ -1,12 +1,13 @@
 // ── CONTENIDO DINÁMICO (WordPress REST API) ──
-// Boletines and comunicados are Documentos on fedecolombia.org. The Observatorio
-// tag decides what shows here; the category decides whether it's a boletín or a comunicado.
+// Boletines and comunicados are Documentos on fedecolombia.org. The tag
+// "Comisión de Investigación y Acusación" decides what shows here; the category
+// decides whether it's a boletín or a comunicado.
 
-// Switch to https://fedecolombia.org/wp-json/wp/v2 when going live
-const WP_API = 'https://staging.fedecolombia.org/wp-json/wp/v2';
+// Use https://staging.fedecolombia.org/wp-json/wp/v2 to test against staging
+const WP_API = 'https://fedecolombia.org/wp-json/wp/v2';
 
 const DOCS_ENDPOINT = 'doc';
-const OBS_TAG       = 'observatorio-comision-acusaciones';  // tag slug
+const OBS_TAG       = 'comision-de-investigacion-y-acusacion';  // tag slug
 const TIPOS = {
   boletin:    { cat: 'boletin-observatorio', label: 'Boletín',    plural: 'boletines' },
   comunicado: { cat: 'comunicado',           label: 'Comunicado', plural: 'comunicados' },
@@ -106,27 +107,6 @@ function metaHTML(item, tipo) {
     </p>`;
 }
 
-// Editor HTML with anything executable removed; only YouTube/Vimeo iframes survive
-const EMBED_HOSTS = /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com)\//i;
-
-function sanitize(html) {
-  if (!window.DOMPurify) return '';
-  DOMPurify.removeAllHooks();
-  DOMPurify.addHook('afterSanitizeAttributes', node => {
-    if (node.tagName === 'IFRAME' && !EMBED_HOSTS.test(node.getAttribute('src') || '')) {
-      node.remove();
-    } else if (node.tagName === 'A' && /^https?:/i.test(node.getAttribute('href') || '')) {
-      node.setAttribute('target', '_blank');
-      node.setAttribute('rel', 'noopener');
-    }
-  });
-  return DOMPurify.sanitize(html || '', {
-    ADD_TAGS: ['iframe'],
-    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'target'],
-    FORBID_TAGS: ['style', 'form'],
-  });
-}
-
 const detailURL = item => `publicacion.html?slug=${encodeURIComponent(item.slug)}`;
 
 // ── Card template ──
@@ -195,7 +175,7 @@ async function loadRepositorio(grids) {
 }
 
 // ── Detail page ──
-// Boletines: cover, meta, summary and PDF. Comunicados also show the full text.
+// Only the header card: cover, meta, title, summary and PDF. The body text isn't shown.
 async function loadDetalle(main) {
   const container = main.querySelector('.container');
   const slug = new URLSearchParams(location.search).get('slug');
@@ -214,7 +194,7 @@ async function loadDetalle(main) {
       slug,
       tags: tagId,
       acf_format: 'standard',
-      _fields: `${LIST_FIELDS},content,acf.archivo_pdf`,
+      _fields: `${LIST_FIELDS},acf.archivo_pdf`,
     }));
     tipo = item && tipoOf(item, catIds);
   } catch (err) {
@@ -227,7 +207,6 @@ async function loadDetalle(main) {
   const acf = item.acf || {};
   const title = decodeHTML(item.title?.rendered);
   const pdf = safeURL(typeof acf.archivo_pdf === 'string' ? acf.archivo_pdf : acf.archivo_pdf?.url);
-  const body = tipo === 'comunicado' ? sanitize(item.content?.rendered).trim() : '';
 
   document.title = `${title} - Observatorio de la Comisión de Acusaciones`;
 
@@ -243,8 +222,7 @@ async function loadDetalle(main) {
         ${acf.documento_resumen ? `<p class="detalle__summary">${escapeHTML(acf.documento_resumen)}</p>` : ''}
         ${pdf ? `<a href="${escapeHTML(pdf)}" class="btn-download" target="_blank" rel="noopener" download>Descargar PDF</a>` : ''}
       </div>
-    </div>
-    ${body ? `<div class="prose">${body}</div>` : ''}`;
+    </div>`;
 }
 
 // ── Boot: each loader runs only if its container is on the page ──
