@@ -1241,6 +1241,29 @@ img { display: block; max-width: 100%; }
   line-height: 1.65;
 }
 
+.observar__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  text-align: left;
+}
+
+.observar__list li {
+  position: relative;
+  padding-left: 1.4em;
+}
+
+.observar__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  background: #FFF5B0;
+}
+
 /* ─────────────────────────────
    FOOTER
 ───────────────────────────── */
